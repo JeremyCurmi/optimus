@@ -1,2 +1,2 @@
-from src.api.discord.bot import *
-from src.api.discord.handlers import *
+from .bot import *
+from .handlers import *
