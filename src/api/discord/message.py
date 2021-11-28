@@ -16,6 +16,7 @@ class Message:
 
     def respond(func):
         """
+        link: https://stackoverflow.com/questions/1263451/python-decorators-in-classes
         this is a decorator with the purpose of blocking bot responding functions from running after the bot has responded once
         """
         async def self_wrapper(*args):
