@@ -3,7 +3,8 @@ from src.api import discord
 
 
 def main():
-    discord.start_discord_client(config.token)
+    bot_settings = config.BotSettings()
+    discord.start_discord_client(bot_settings)
 
 
 if __name__ == "__main__":
