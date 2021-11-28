@@ -1,8 +1,12 @@
 from discord.channel import DMChannel
+from .. import models
 
 
 def startswith(statement: str) -> str:
-    return statement.split(' ')[0]
+    first_word = statement.split(' ')[0]
+    if first_word.lower() in models.multiple_word_greeting_terms_first_word:
+        return ' '.join(statement.split(' ')[:2])
+    return first_word
 
 
 class Message:
@@ -27,11 +31,10 @@ class Message:
         return self_wrapper
 
     @respond
-    async def greet(self):
-        greet_terms = ['Hi', 'Hey']
+    async def greet(self) -> bool:
 
         def check(msg: str) -> bool:
-            if startswith(msg) in greet_terms:
+            if startswith(msg).lower() in models.greeting_terms:
                 return True
             return False
 
@@ -40,6 +43,8 @@ class Message:
                 await self.channel.send(f"Hi, how can I help you?")
             else:
                 await self.channel.send(f"Hi {self.author}, how can I help you?")
+        else:
+            self.responded = False
 
     @respond
     async def on_message_logic(self):
