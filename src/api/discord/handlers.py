@@ -1,17 +1,12 @@
 from typing import Any
+from discord.ext import tasks, commands
+from src.api import jobs
 
 
-def extract_username_from_name(username: str) -> str:
-    """
-    param: discord username with id
-    return: stringified message error, with id removed
-    """
-    return username.split('#')[0]
-
-
-def get_message_author(message: Any) -> str:
-    """
-    param: discord message
-    return: stringified message error, with id removed
-    """
-    return extract_username_from_name(str(message.author))
+def run_encouragement(bot: commands.Bot, channel_id: int):
+    @tasks.loop(hours=2)
+    async def run():
+        await bot.wait_until_ready()
+        channel = bot.get_channel(channel_id)
+        await channel.send(jobs.get_encouraging_quote())
+    run.start()
