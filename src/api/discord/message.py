@@ -14,10 +14,18 @@ class Message:
         self.is_dm = isinstance(message.channel, DMChannel)
         self.responded = False
 
-    # def respond(func):
-    #     if not self.responded:
-    #         return func()
+    def respond(func):
+        """
+        this is a decorator with the purpose of blocking bot responding functions from running after the bot has responded once
+        """
+        async def self_wrapper(*args):
+            self = args[0]
+            if not self.responded:
+                self.responded = True
+                await func(*args)
+        return self_wrapper
 
+    @respond
     async def greet(self):
         greet_terms = ['Hi', 'Hey']
 
@@ -32,6 +40,7 @@ class Message:
             else:
                 await self.channel.send(f"Hi {self.author}, how can I help you?")
 
+    @respond
     async def on_message_logic(self):
 
         def check(msg):

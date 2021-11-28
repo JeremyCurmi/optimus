@@ -38,15 +38,15 @@ def start_discord_client(settings):
 
     @bot.event
     async def on_message(ctx):
+
         if should_bot_activate(bot, ctx):
             msg = Message(ctx)
+
             await msg.greet()
 
             await msg.on_message_logic()
         elif not is_bot_the_author(bot, ctx):
             print("I could log this information to improve myself ...",
                   ctx.author, ctx.content, ctx.channel)
-        else:
-            print("\n I should do nothing \n")
 
     bot.run(settings.token)
