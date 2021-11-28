@@ -47,7 +47,7 @@ class Message:
             self.responded = False
 
     @respond
-    async def on_message_logic(self):
+    async def message_ai(self):
 
         def check(msg):
             return msg.content == 'Jeris is awesome'

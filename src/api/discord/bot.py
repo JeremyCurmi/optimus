@@ -1,6 +1,5 @@
 import discord
 from discord.channel import DMChannel
-from discord.ext import commands
 from discord.ext.commands import Bot
 from .handlers import run_encouragement
 from .message import Message
@@ -38,15 +37,16 @@ def start_discord_client(settings):
 
     @bot.event
     async def on_message(ctx):
-
+        print(ctx.author, ctx.content, ctx.channel)
         if should_bot_activate(bot, ctx):
             msg = Message(ctx)
 
             await msg.greet()
 
-            await msg.on_message_logic()
+            await msg.message_ai()
         elif not is_bot_the_author(bot, ctx):
-            print("I could log this information to improve myself ...",
-                  ctx.author, ctx.content, ctx.channel)
+            # print("I could log this information to improve myself ...",
+            #       ctx.author, ctx.content, ctx.channel)
+            pass
 
     bot.run(settings.token)
