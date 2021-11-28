@@ -1,0 +1,1 @@
+from .encouragement import get_encouraging_quote
