@@ -1,5 +1,6 @@
 from discord.channel import DMChannel
 from .. import models
+from . import commands
 
 
 def startswith(statement: str) -> str:
@@ -49,10 +50,7 @@ class Message:
     @respond
     async def message_ai(self):
 
-        def check(msg):
-            return msg.content == 'Jeris is awesome'
-
-        if check(self.msg):
-            await self.channel.send(f"yes Jeris is awesome")
+        if commands.check_is_command(self.content):
+            commands.process_command(self.content)
         else:
             await self.channel.send(f"I should say something here ...")

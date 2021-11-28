@@ -1,15 +1,24 @@
-from commands import return_command_type_if_given_command
+import commands
 
 
-def test_return_command_type_if_given_command():
-    is_voice_command = True
-    test_cases = [{'var': '$new$reminder',
-                   'expected': (not is_voice_command, '$new')},
-                  {'var': 'Hey man this is a test',
-                   'expected': None},
-                  {'var': 'Hey @optimus, command update ...',
-                   'expected': (is_voice_command, '$update')}]
+def test_check_is_command():
+    test_cases = [{'var': '$new$reminder', 'expected': True},
+                  {'var': 'This is a test', 'expected': False},
+                  {'var': '$this$isatest', 'expected': False},
+                  {'var': 'Hey @optimus, command update', 'expected': True}]
     for test in test_cases:
-        got = return_command_type_if_given_command(test['var'])
+        got = commands.check_is_command(test['var'])
+        expected = test['expected']
+        assert got == expected
+
+
+def test_select_command_type():
+    test_cases = [{'var': '$new$reminder', 'expected': (False, 'new')},
+                  {'var': 'command delete', 'expected': (True, 'delete')},
+                  {'var': '$update$greeting_term',
+                      'expected': (False, 'update')},
+                  {'var': 'Hey @optimus, command update', 'expected': (True, 'update')}]
+    for test in test_cases:
+        got = commands.select_command_type(test['var'])
         expected = test['expected']
         assert got == expected
